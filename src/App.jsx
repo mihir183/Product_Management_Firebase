@@ -5,15 +5,18 @@ import Index from "./pages/Index";
 import Routing from "./layout";
 import Register from "./pages/Register";
 import { ToastContainer, Bounce } from "react-toastify";
+import PrivateRoute from "./PrivateRoute";
 
 const App = () => {
   return (
     <>
       <Router>
         <Routes>
-          {Routing.map((ele) => (
-            <Route path={ele.path} element={<ele.element />} />
-          ))}
+          <Route element={<PrivateRoute/>}>
+            {Routing.map((ele) => (
+              <Route path={ele.path} element={<ele.element />} />
+            ))}
+            </Route>
           <Route path="/" element={<Index />} />
           <Route path="/register" element={<Register />} />
         </Routes>
