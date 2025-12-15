@@ -1,7 +1,11 @@
 import googleLogo from "../assets/images/google.png";
 import { useForm } from "react-hook-form";
-import { GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword } from "firebase/auth";
-import {auth} from "../../firebase";
+import {
+  GoogleAuthProvider,
+  signInWithPopup,
+  createUserWithEmailAndPassword,
+} from "firebase/auth";
+import { auth } from "../../firebase";
 import "../assets/css/common.css";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -15,18 +19,20 @@ const Register = () => {
     signInWithPopup(auth, provider)
       .then((res) => {
         navigate("/ahome");
-        reset()
+        reset();
       })
       .catch((err) => toast.error(err));
   }
 
-  function addUser(data){
-    createUserWithEmailAndPassword(auth,data.email,data.password)
-    .then(res=>{
-      navigate('/')
-      reset()
-    })
-    .catch(err=>toast.error(err))
+  function addUser(data) {
+    createUserWithEmailAndPassword(auth, data.email, data.password)
+      .then((res) => {
+        navigate("/");
+        reset();
+      })
+      .catch((err) => {
+        toast.error(err.message);
+      });
   }
   return (
     <>
@@ -68,7 +74,7 @@ const Register = () => {
 
             <button
               type="button"
-              className="btn btn-outline-dark w-100 text-capitalize"
+              className="btn btn-outline-dark w-100 text-capitalize d-flex justify-content-center"
               onClick={google}
             >
               <img

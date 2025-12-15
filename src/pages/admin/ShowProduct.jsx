@@ -1,26 +1,74 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "./Component/Navbar";
-import { get, ref } from "firebase/database";
+import Menu from "./Component/Menu";
+import { get, ref, remove } from "firebase/database";
 import { auth, db } from "../../../firebase";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import Footer from "./Component/Footer";
+import Swal from "sweetalert2";
 
 const ShowProduct = () => {
-
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const [product, setProduct] = useState([]);
+  const [search, setSearch] = useState([]);
   var arr = [];
 
   async function showProduct() {
     const data = await get(ref(db, "products"));
     const obj = data.val();
     for (var key in obj) {
-      arr.push({id: key,...obj[key]});
+      arr.push({ id: key, ...obj[key] });
     }
 
-    const userId = auth.currentUser.uid
-    const filterData = arr.filter(ele=>ele.userId==userId)
+    const userId = auth.currentUser.uid;
+    const filterData = arr.filter((ele) => ele.userId == userId);
     setProduct(filterData);
+    setSearch(filterData);
+  }
+
+  async function deleteProduct(id) {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await remove(ref(db, `/products/${id}`));
+
+          Swal.fire({
+            title: "Deleted!",
+            text: "Product has been deleted successfully.",
+            icon: "success",
+          });
+          showProduct();
+        } catch (err) {
+          Swal.fire({
+            title: "Error!",
+            text: "Product can't be deleted.",
+            icon: "error",
+          });
+        }
+      }
+    });
+  }
+
+  function searchPro(text) {
+    const filterData = product.filter((ele) => {
+      return (
+        ele.name.toLowerCase().includes(text.toLowerCase()) ||
+        ele.price?.toString().includes(text) ||
+        ele.stock?.toString().includes(text)
+      );
+    });
+
+    setSearch(filterData);
   }
 
   useEffect(() => {
@@ -30,35 +78,98 @@ const ShowProduct = () => {
     <>
       <Navbar />
 
-      <div className="container mt-5 text-capitalize text-end">
-      <button className="btn btn-primary text-capitalize my-3" onClick={()=>{navigate('/addProduct')}}>add products</button>
-        <table className="table text-center">
-          <thead>
-            <tr>
-              <th>no</th>
-              <th>name</th>
-              <th>price</th>
-              <th>stock</th>
-            </tr>
-          </thead>
-          <tbody>
-            {product.length === 0 ? (
+      <div className="max-w-6xl mx-auto mt-10 px-4">
+        {/* Header Section */}
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-3xl font-semibold text-gray-800">My Products</h1>
+
+          <button
+            className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-lg shadow-md transition text-[15px] md:text-[20px]"
+            onClick={() => navigate("/addProduct")}
+          >
+            + Add Product
+          </button>
+        </div>
+
+        <div className="my-3">
+          <input
+            type="search"
+            name=""
+            id=""
+            className="form-control"
+            placeholder="Search Product by Name/Price/Stock"
+            onChange={(e) => {
+              searchPro(e.target.value);
+            }}
+          />
+        </div>
+
+        {/* Card Table */}
+        <div className="bg-white shadow-lg rounded-xl overflow-hidden border border-gray-200 overflow-x-auto md:overflow-x-hidden">
+          <table className="w-full text-left">
+            <thead className="bg-gray-100 text-gray-700 uppercase text-sm">
               <tr>
-                <td colSpan={5}>no data</td>
+                <th className="py-4 px-6 hidden md:block lg:block">No</th>
+                <th className="py-4 px-6">Name</th>
+                <th className="py-4 px-6">Price</th>
+                <th className="py-4 px-6">Stock</th>
+                <th className="py-4 px-6">action</th>
               </tr>
-            ) : (
-              product.map((ele,index) => (
+            </thead>
+
+            <tbody>
+              {search.length === 0 ? (
                 <tr>
-                  <td>{index+1}</td>
-                  <td>{ele.name}</td>
-                  <td>${ele.price}</td>
-                  <td>{ele.stock}</td>
+                  <td
+                    colSpan={5}
+                    className="py-10 text-center text-gray-500 text-lg"
+                  >
+                    No products found
+                  </td>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+              ) : (
+                search.map((ele, index) => (
+                  <tr
+                    key={ele.id}
+                    className="border-b hover:bg-gray-50 transition"
+                  >
+                    <td className="py-4 px-6 hidden md:block lg:block">
+                      {index + 1}
+                    </td>
+                    <td className="py-4 px-6 font-medium text-gray-800 text-capitalize  ">
+                      {ele.name}
+                    </td>
+                    <td className="py-4 px-6 text-green-600 font-semibold">
+                      ${ele.price}
+                    </td>
+                    <td className="py-4 px-6">{ele.stock}</td>
+                    <td>
+                      <div className="btn-group">
+                        <button
+                          className="btn btn-info text-capitalize"
+                          onClick={() => {
+                            navigate(`/editProduct/${ele.id}`);
+                          }}
+                        >
+                          edit
+                        </button>
+                        <button
+                          className="btn btn-danger text-capitalize"
+                          onClick={() => deleteProduct(ele.id)}
+                        >
+                          delete
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
+      <Menu />
+      <Footer />
     </>
   );
 };

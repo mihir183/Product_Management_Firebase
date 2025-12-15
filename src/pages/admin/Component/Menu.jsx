@@ -21,6 +21,8 @@ const Menu = () => {
         tabIndex="-1"
         id="offcanvasExample"
         aria-labelledby="offcanvasExampleLabel"
+        data-bs-backdrop="false"
+        data-bs-scroll="true"
       >
         <div className="offcanvas-header">
           <img src={logo} alt="" width={60} height={70} />
@@ -37,7 +39,7 @@ const Menu = () => {
             <li className="text-capitalize text-center border-bottom my-4">
               <Link to="/ahome" className="text-decoration-none text-dark">
                 home
-              </Link> 
+              </Link>
             </li>
             <li className="text-capitalize text-center border-bottom my-4">
               <button
@@ -65,9 +67,17 @@ const Menu = () => {
               </Link>
             </li>
             <li className="text-capitalize text-center border-bottom my-4">
-              <a href="" className="text-decoration-none text-dark">
+              <Link
+                to="/changePass"
+                className="text-decoration-none text-dark"
+              >
+                change password
+              </Link>
+            </li>
+            <li className="text-capitalize text-center border-bottom my-4">
+              <Link to="/home" className="text-decoration-none text-dark">
                 preview
-              </a>
+              </Link>
             </li>
           </ul>
         </div>

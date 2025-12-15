@@ -6,8 +6,13 @@ import Routing from "./layout";
 import Register from "./pages/Register";
 import { ToastContainer, Bounce } from "react-toastify";
 import PrivateRoute from "./PrivateRoute";
+import './index.css'
+import { useEffect } from "react";
 
 const App = () => {
+  useEffect(()=>{
+
+  },[])
   return (
     <>
       <Router>

@@ -13,4 +13,12 @@
   transform: rotate(90deg) translate(0%, -100%);
   transform-origin: 0 0;
   border-radius: 5px 5px 0 0;
+
+  ul{
+    li{
+      &:hover{
+        font-weight: 600;
+      }
+    }
+  }
 }

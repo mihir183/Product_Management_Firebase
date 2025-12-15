@@ -1,7 +1,11 @@
 import googleLogo from "../assets/images/google.png";
 import { useForm } from "react-hook-form";
-import {GoogleAuthProvider,signInWithPopup,signInWithEmailAndPassword,} from "firebase/auth";
-import {auth} from "../../firebase";
+import {
+  GoogleAuthProvider,
+  signInWithPopup,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { auth } from "../../firebase";
 import "../assets/css/common.css";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -17,7 +21,10 @@ const Index = () => {
       .then((res) => {
         navigate("/ahome");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        // navigate("/");
+        alert(err)
+      });
   }
 
   function login(data) {
@@ -27,7 +34,7 @@ const Index = () => {
         reset();
       })
       .catch((err) => {
-        toast.error("Email OR Password is Invalid")
+        toast.error("Email OR Password is Invalid");
       });
   }
   return (
@@ -70,7 +77,7 @@ const Index = () => {
 
             <button
               type="button"
-              className="btn btn-outline-dark w-100 text-capitalize"
+              className="btn btn-outline-dark w-100 text-capitalize d-flex justify-content-center"
               onClick={google}
             >
               <img
