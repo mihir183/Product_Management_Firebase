@@ -1,3 +1,24 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.loginForm {
+    position: absolute;   /* required */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* correct way */
+    display: grid;
+}
+
+.pointer{
+  cursor: pointer;
+}
+
+.text-responsive {
+  font-size: clamp(14px, 2vw, 24px);
+}

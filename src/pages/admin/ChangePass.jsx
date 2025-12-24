@@ -33,7 +33,7 @@ const ChangePass = () => {
       <Navbar />
       <Menu />
       <Footer />
-      <div className="col-6 mx-auto mt-5">
+      <div className="col-10 col-md-6 mx-auto mt-5">
         <form action="">
           <input type="text" className="form-control" value={email} readOnly />
           <button

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const Footer = () => {
   return (
     <>
-      <div className="fixed bottom-0 w-full bg-gray-900 py-3 md:py-5 text-white capitalize text-center">
+      <div className="position-fixed bottom-0 w-full bg-gray-900 py-3 md:py-5 text-white capitalize text-center z-3">
         <p className="m-0">
           developed by{" "}
           <Link

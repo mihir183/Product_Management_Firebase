@@ -6,7 +6,6 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { auth } from "../../firebase";
-import "../assets/css/common.css";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import AutoLogout from "./AutoLogout";
@@ -23,15 +22,16 @@ const Index = () => {
       })
       .catch((err) => {
         // navigate("/");
-        alert(err)
+        alert(err);
       });
   }
 
   function login(data) {
     signInWithEmailAndPassword(auth, data.email, data.password)
       .then((res) => {
-        navigate("/ahome");
+        localStorage.setItem("user", JSON.stringify(res.user));
         reset();
+        navigate("/ahome");
       })
       .catch((err) => {
         toast.error("Email OR Password is Invalid");
@@ -39,8 +39,15 @@ const Index = () => {
   }
   return (
     <>
-      <div className="background pt-5">
-        <div className="loginForm col-10 col-sm-5 col-md-4 col-lg-3 mx-auto shadow py-5 px-3 rounded-4 bg-light">
+      <div className="position-relative" style={{ height: "100vh" }}>
+        <video
+          src="/car.mp4"
+          className="position-absolute object-fit-cover w-100 h-100"
+          autoPlay
+          loop
+          muted
+        ></video>
+        <div className="loginForm col-10 col-sm-5 col-md-4 col-lg-3 mx-auto shadow py-5 px-3 rounded-4 bg-light bg-opacity-25 backdrop-blur">
           <h2 className="text-capitalize">login</h2>
           <form action="" onSubmit={handleSubmit(login)}>
             <label htmlFor="email" className="form-label text-capitalize">

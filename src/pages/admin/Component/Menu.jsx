@@ -12,6 +12,7 @@ const Menu = () => {
         data-bs-toggle="offcanvas"
         data-bs-target="#offcanvasExample"
         aria-controls="offcanvasExample"
+        role="button"
       >
         menu
       </button>
@@ -23,6 +24,7 @@ const Menu = () => {
         aria-labelledby="offcanvasExampleLabel"
         data-bs-backdrop="false"
         data-bs-scroll="true"
+        
       >
         <div className="offcanvas-header">
           <img src={logo} alt="" width={60} height={70} />
@@ -50,11 +52,11 @@ const Menu = () => {
                 products
               </button>
             </li>
-            <li className="text-capitalize text-center border-bottom my-4">
+            {/* <li className="text-capitalize text-center border-bottom my-4">
               <a href="" className="text-decoration-none text-dark">
                 stock
               </a>
-            </li>
+            </li> */}
             <li className="text-capitalize text-center border-bottom my-4">
               <Link
                 to="/addProduct"
@@ -74,11 +76,11 @@ const Menu = () => {
                 change password
               </Link>
             </li>
-            <li className="text-capitalize text-center border-bottom my-4">
+            {/* <li className="text-capitalize text-center border-bottom my-4">
               <Link to="/home" className="text-decoration-none text-dark">
                 preview
               </Link>
-            </li>
+            </li> */}
           </ul>
         </div>
       </div>

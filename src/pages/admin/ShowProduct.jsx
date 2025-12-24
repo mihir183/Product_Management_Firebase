@@ -13,6 +13,7 @@ const ShowProduct = () => {
 
   const [product, setProduct] = useState([]);
   const [search, setSearch] = useState([]);
+  const [url, setUrl] = useState("");
   var arr = [];
 
   async function showProduct() {
@@ -69,6 +70,11 @@ const ShowProduct = () => {
     });
 
     setSearch(filterData);
+  }
+
+  function showImg(id) {
+    const imgUrl = product.find((ele) => ele.id === id);
+    setUrl(imgUrl);
   }
 
   useEffect(() => {
@@ -136,7 +142,14 @@ const ShowProduct = () => {
                     <td className="py-4 px-6 hidden md:block lg:block">
                       {index + 1}
                     </td>
-                    <td className="py-4 px-6 font-medium text-gray-800 text-capitalize  ">
+                    <td
+                      className="py-4 px-6 font-medium text-gray-800 text-capitalize"
+                      onClick={() => {
+                        showImg(ele.id);
+                      }}
+                      data-bs-toggle="modal"
+                      data-bs-target="#exampleModal"
+                    >
                       {ele.name}
                     </td>
                     <td className="py-4 px-6 text-green-600 font-semibold">
@@ -170,6 +183,44 @@ const ShowProduct = () => {
       </div>
       <Menu />
       <Footer />
+      <div
+        class="modal fade"
+        id="exampleModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1
+                class="modal-title fs-5 text-capitalize"
+                id="exampleModalLabel"
+              >
+                product image
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body flex justify-content-center">
+              <img
+                src={
+                  url.url ||
+                  "https://i.pinimg.com/736x/46/8f/84/468f8447a8c2ae4e6be30dfca58a48f5.jpg"
+                }
+                alt=""
+                className=""
+                width={350}
+                height={350}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
 };

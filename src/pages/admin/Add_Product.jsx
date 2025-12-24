@@ -57,6 +57,16 @@ const Add_Product = () => {
             <h2 className="text-capitalize">update product</h2>
           )}
           <form action="" onSubmit={handleSubmit(addProduct)}>
+            <label htmlFor="url" className="form-label text-capitalize">
+              url
+            </label>
+            <input
+              type="url"
+              {...register("url")}
+              id="url"
+              className="form-control mb-2"
+              placeholder="Enter Product URL"
+            />
             <label htmlFor="name" className="form-label text-capitalize">
               name
             </label>

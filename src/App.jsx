@@ -6,25 +6,28 @@ import Routing from "./layout";
 import Register from "./pages/Register";
 import { ToastContainer, Bounce } from "react-toastify";
 import PrivateRoute from "./PrivateRoute";
-import './index.css'
-import { useEffect } from "react";
+import "./index.css";
+import { Suspense, useEffect } from "react";
+import Error from "./pages/Error";
+import Loading from "./pages/admin/Component/Loading";
 
 const App = () => {
-  useEffect(()=>{
-
-  },[])
+  useEffect(() => {}, []);
   return (
     <>
       <Router>
-        <Routes>
-          <Route element={<PrivateRoute/>}>
-            {Routing.map((ele) => (
-              <Route path={ele.path} element={<ele.element />} />
-            ))}
+        <Suspense fallback={<Loading/>}>
+          <Routes>
+            <Route element={<PrivateRoute />}>
+              {Routing.map((ele) => (
+                <Route path={ele.path} element={<ele.element />} />
+              ))}
             </Route>
-          <Route path="/" element={<Index />} />
-          <Route path="/register" element={<Register />} />
-        </Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="*" element={<Error />} />
+          </Routes>
+        </Suspense>
       </Router>
       <ToastContainer
         position="top-right"
