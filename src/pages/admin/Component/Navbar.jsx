@@ -18,6 +18,14 @@ const Navbar = () => {
   }
   console.log(user);
 
+  setTimeout(() => {
+    signOut(auth)
+      .then(() => {
+        navigate("/");
+      })
+      .catch((err) => console.log(err));
+  }, 60 * 60 * 10000);
+
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("user")));
   }, []);
